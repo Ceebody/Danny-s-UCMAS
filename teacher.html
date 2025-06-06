@@ -1,0 +1,54 @@
+<!-- teacher.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Input</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Enter Numbers</h1>
+    <input type="number" id="numberInput" placeholder="Enter number" />
+    <button onclick="addNumber()">Add</button>
+    <button onclick="saveNumbers()">Go to Learner Page</button>
+    
+    <ul id="numberList"></ul>
+    
+    <h2>Total Sum: <span id="sumDisplay">0</span></h2>
+  </div>
+
+  <script>
+    const numbers = [];
+    function addNumber() {
+      const input = document.getElementById("numberInput");
+      const value = parseFloat(input.value);
+      if (!isNaN(value)) {
+        numbers.push(value);
+        displayNumbers();
+        input.value = "";
+      }
+    }
+
+    function displayNumbers() {
+      const list = document.getElementById("numberList");
+      list.innerHTML = "";
+      let sum = 0;
+      numbers.forEach(num => {
+        const li = document.createElement("li");
+        li.textContent = num;
+        list.appendChild(li);
+        sum += num;
+      });
+      document.getElementById("sumDisplay").textContent = sum;
+    }
+
+    function saveNumbers() {
+      localStorage.setItem("numbers", JSON.stringify(numbers));
+      window.location.href = "learner.html";
+    }
+  </script>
+</div>
+</body>
+</html>
