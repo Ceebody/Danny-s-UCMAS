@@ -5,17 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Learner View</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Fullscreen mode for number display */
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+  </style>
+  <link rel="icon" type="image/png" href="uc.png">
 </head>
 <body>
   <div class="container">
     <h1>Learner Page</h1>
 
-    <label for="interval">Interval (seconds):</label>
-    <input type="number" id="interval" value="3" min="1" />
+    <div id="controlsWrapper">
+      <label for="interval">Interval (seconds):</label>
+      <input type="number" id="interval" value="3" min="1" />
 
-    <div class="controls">
-      <button onclick="startDisplay()">Start</button>
-      <button onclick="resetDisplay()">Reset</button>
+      <div class="controls">
+        <button onclick="startDisplay()">Start</button>
+        <button onclick="resetDisplay()">Reset</button>
+      </div>
     </div>
 
     <div id="displayArea">
@@ -49,43 +67,9 @@
       index = 0;
       clearInterval(intervalId);
 
-      intervalId = setInterval(() => {
-        if (index < shuffledNumbers.length) {
-          const number = shuffledNumbers[index++];
-          document.getElementById("displayNumber").textContent = number;
-
-          const beep = document.getElementById("beepSound");
-          beep.currentTime = 0;
-          beep.play();
-        } else {
-          clearInterval(intervalId);
-          document.getElementById("displayNumber").textContent = "Done!";
-        }
-      }, interval);
-    }
-
-    function resetDisplay() {
-      clearInterval(intervalId);
-      index = 0;
-      document.getElementById("displayNumber").textContent = "Click \"Start\"";
-    }
-  </script>
-</body>
-</html>    function shuffleArray(arr) {
-      return arr.sort(() => Math.random() - 0.5);
-    }
-
-    function startDisplay() {
-      const interval = parseInt(document.getElementById("interval").value) * 1000;
-      const numbers = JSON.parse(localStorage.getItem("numbers")) || [];
-      if (numbers.length === 0) {
-        alert("No numbers found. Please go back to the teacher page and add numbers.");
-        return;
-      }
-
-      shuffledNumbers = shuffleArray([...numbers]);
-      index = 0;
-      clearInterval(intervalId);
+      // Hide controls and go fullscreen
+      document.getElementById("controlsWrapper").style.display = "none";
+      document.getElementById("displayArea").classList.add("fullscreen");
 
       intervalId = setInterval(() => {
         if (index < shuffledNumbers.length) {
@@ -98,6 +82,12 @@
         } else {
           clearInterval(intervalId);
           document.getElementById("displayNumber").textContent = "Done!";
+
+          // Exit fullscreen after short delay
+          setTimeout(() => {
+            document.getElementById("controlsWrapper").style.display = "block";
+            document.getElementById("displayArea").classList.remove("fullscreen");
+          }, 1500);
         }
       }, interval);
     }
@@ -106,9 +96,11 @@
       clearInterval(intervalId);
       index = 0;
       document.getElementById("displayNumber").textContent = "Click \"Start\"";
+
+      // Show controls again if reset
+      document.getElementById("controlsWrapper").style.display = "block";
+      document.getElementById("displayArea").classList.remove("fullscreen");
     }
   </script>
-
-</div>
 </body>
 </html>
