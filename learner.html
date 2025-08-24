@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Number Viewer</h1>
+    <h1>Learner Page</h1>
 
     <label for="interval">Interval (seconds):</label>
     <input type="number" id="interval" value="3" min="1" />
@@ -22,7 +22,6 @@
       <div id="displayNumber" class="number-box">Click "Start"</div>
     </div>
 
-    <!-- Sound (must be played via interaction) -->
     <audio id="beepSound" preload="auto">
       <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav" />
       Your browser does not support audio.
@@ -35,6 +34,44 @@
     let intervalId;
 
     function shuffleArray(arr) {
+      return arr.sort(() => Math.random() - 0.5);
+    }
+
+    function startDisplay() {
+      const interval = parseInt(document.getElementById("interval").value) * 1000;
+      const numbers = JSON.parse(localStorage.getItem("numbers")) || [];
+      if (numbers.length === 0) {
+        alert("No numbers found. Please go back to the teacher page and add numbers.");
+        return;
+      }
+
+      shuffledNumbers = shuffleArray([...numbers]);
+      index = 0;
+      clearInterval(intervalId);
+
+      intervalId = setInterval(() => {
+        if (index < shuffledNumbers.length) {
+          const number = shuffledNumbers[index++];
+          document.getElementById("displayNumber").textContent = number;
+
+          const beep = document.getElementById("beepSound");
+          beep.currentTime = 0;
+          beep.play();
+        } else {
+          clearInterval(intervalId);
+          document.getElementById("displayNumber").textContent = "Done!";
+        }
+      }, interval);
+    }
+
+    function resetDisplay() {
+      clearInterval(intervalId);
+      index = 0;
+      document.getElementById("displayNumber").textContent = "Click \"Start\"";
+    }
+  </script>
+</body>
+</html>    function shuffleArray(arr) {
       return arr.sort(() => Math.random() - 0.5);
     }
 
