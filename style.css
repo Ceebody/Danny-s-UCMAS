@@ -7,7 +7,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
   background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Blue gradient */
   color: #2c3e50;
 }
