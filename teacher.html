@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Teacher Input</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="uc.png">
 </head>
 <body>
   <div class="container">
@@ -51,22 +52,5 @@
       window.location.href = "learner.html";
     }
   </script>
-</body>
-</html>      let sum = 0;
-      numbers.forEach(num => {
-        const li = document.createElement("li");
-        li.textContent = num;
-        list.appendChild(li);
-        sum += num;
-      });
-      document.getElementById("sumDisplay").textContent = sum;
-    }
-
-    function saveNumbers() {
-      localStorage.setItem("numbers", JSON.stringify(numbers));
-      window.location.href = "learner.html";
-    }
-  </script>
-</div>
 </body>
 </html>
